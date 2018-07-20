@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     moveToCompleted(filename,i);
-                    spinner.setAdapter(makeSpinnerAdapter(getSpinnerEntires()));
                 }
                 list.setAdapter(makeListAdapter(getEntries(filename)));
             }
