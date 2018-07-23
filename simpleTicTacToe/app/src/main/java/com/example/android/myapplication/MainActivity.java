@@ -1,7 +1,9 @@
 package com.example.android.myapplication;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +14,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
 
-    int[][] ticTac = {{-1,-1,-1},{-1,-1,-1},{-1,-1,-1}};
     int player1Score = 0;
     int player2Score = 0;
-    int playCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,115 +27,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    private boolean checkWin(int[][] board,int index){
-        int x = index/3;
-        int y = index%3;
-        if(board[x][y] == -1){
-            return false;
-        }
-        int value = board[x][y];
-        int countH = 0;
-        int countV = 0;
-        int countD = 0;
-        for(int i =0; i<3; i++){
-            if(board[i][i] == value){
-                countD++;
-            }
-            if(board[i][y] ==value){
-                countH++;
-            }
-            if(board[x][i] == value){
-                countV++;
-            }
-        }
-        if(countH == 3 || countV == 3 || countD == 3){
-            return true;
-        }
-        return false;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("player1Score",player1Score);
+        outState.putInt("player2Score",player2Score);
     }
 
-    private void endGame(){
-        for (int i = 0; i < 9; i++) {
-            ImageButton imgButt = (ImageButton) findViewById(getResources().getIdentifier(
-                    "button" + i,
-                    "id",
-                    getPackageName()));
-            imgButt.setClickable(false);
-        }
-        int[][] cleared = {{-1,-1,-1},{-1,-1,-1},{-1,-1,-1}};
-        ticTac = cleared;
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        player1Score = savedInstanceState.getInt("player1Score",0);
+        player2Score = savedInstanceState.getInt("player2Score",0);
+        TextView txt1 = (TextView) findViewById(R.id.player1);
+        TextView txt2 = (TextView) findViewById(R.id.player2);
+        txt1.setText("OScore: " + player1Score);
+        txt2.setText("XScore: " + player2Score);
     }
 
-    public void buttonClick(View view) {
-        Switch s = (Switch) findViewById(R.id.playerSwitch);
-        int player = s.isChecked() ? 1 : 0;
-        int index = Integer.valueOf(view.getTag().toString());
-        int x = index/3;
-        int y = index % 3;
-        ImageButton img = (ImageButton) view;
-        if ((img.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.blank).getConstantState())) {
-            playCount++;
-            if (player == 0) {
-                img.setImageResource(R.drawable.o);
-                s.setChecked(true);
-                ticTac[x][y] = 0;
-            } else {
-                img.setImageResource(R.drawable.x);
-                s.setChecked(false);
-                ticTac[x][y] = 1;
-            }
-        }
-        if ((img.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.blank2).getConstantState())) {
-            playCount++;
-            if (player == 0) {
-                img.setImageResource(R.drawable.o2);
-                s.setChecked(true);
-                ticTac[x][y] = 0;
-            } else {
-                img.setImageResource(R.drawable.x2);
-                s.setChecked(false);
-                ticTac[x][y] = 1;
-            }
-        }
-        if (checkWin(ticTac, index)) {
-            if (player == 0) {
-                player1Score++;
-                TextView txt = (TextView) findViewById(R.id.player1);
-                txt.setText("oScore : " + player1Score);
-                playCount = 0;
-                Toast.makeText(getApplicationContext(),"Player 1 Wins",Toast.LENGTH_SHORT).show();
-            } else {
-                player2Score++;
-                TextView txt = (TextView) findViewById(R.id.player2);
-                txt.setText("xScore : " + player2Score);
-                playCount = 0;
-                Toast.makeText(getApplicationContext(),"Player 2 Wins",Toast.LENGTH_SHORT).show();
-
-            }
-            endGame();
-        }
-        if(playCount == 9){
-            endGame();
-            playCount = 0;
-            Toast.makeText(getApplicationContext(),"Tie",Toast.LENGTH_SHORT).show();
-
-        }
+    public void clear(View view){
+        ticTacArea fragment = (ticTacArea) getSupportFragmentManager().findFragmentById(R.id.playArea);
+        fragment.clear();
     }
-
-    public void restart(View view) {
-        int ori = view.getResources().getConfiguration().orientation;
-        for(int i = 0; i<9; i++){
-            ImageButton img = (ImageButton) findViewById(getResources().getIdentifier(
-                    "button" + i,
-                    "id",
-                    getPackageName()));
-            if(ori == 1) {
-                img.setImageResource(R.drawable.blank);
-            }
-            else{
-                img.setImageResource(R.drawable.blank2);
-            }
-            img.setClickable(true);
+    public void updateScore(int player){
+        TextView txt1 = (TextView) findViewById(R.id.player1);
+        TextView txt2 = (TextView) findViewById(R.id.player2);
+        TextView txt = player == 0 ? txt1 : txt2;
+        if(player == 0){
+            player1Score++;
         }
+        if(player == 1){
+            player2Score++;
+        }
+        int score = player == 0 ? player1Score : player2Score;
+        txt.setText("oScore : " + score);
+        Toast.makeText(getApplicationContext(),"Player " + (player + 1) + " Wins",Toast.LENGTH_SHORT).show();
     }
 }

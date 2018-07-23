@@ -7,169 +7,62 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="47dp">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <Switch
             android:id="@+id/playerSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
-            android:gravity="center_vertical"
-            android:padding="10dp"
             android:layout_marginTop="25dp"
+            android:checked="false"
+            android:clickable="false"
             android:showText="true"
             android:textOff="Player 1"
             android:textOn="Player 2"
-            tools:checked="false"
-            android:clickable="false"/>
+            tools:checked="false" />
 
-        <LinearLayout
-            android:id="@+id/gridLayout"
+        <fragment
+            android:id="@+id/playArea"
+            android:name="com.example.android.myapplication.ticTacArea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:orientation="vertical">
+            tools:layout="@layout/fragment_tic_tac_area">
+        </fragment>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:tag="0"
-                    android:id="@+id/button0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-
-                <ImageButton
-                    android:tag="1"
-                    android:id="@+id/button1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-
-                <ImageButton
-                    android:tag="2"
-                    android:id="@+id/button2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:tag="3"
-                    android:id="@+id/button3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-
-                <ImageButton
-                    android:tag="4"
-                    android:id="@+id/button4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-
-                <ImageButton
-                    android:tag="5"
-                    android:id="@+id/button5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:tag="6"
-                    android:id="@+id/button6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-
-                <ImageButton
-                    android:tag="7"
-                    android:id="@+id/button7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-
-                <ImageButton
-                    android:tag="8"
-                    android:id="@+id/button8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="buttonClick"
-                    android:src="@drawable/blank" />
-            </LinearLayout>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/player1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="oScore: 0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="20dp"
-                android:layout_marginRight="50dp"/>
+                android:text="oScore: 0"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/clearButton"
-                android:onClick="restart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Clear"
-                android:gravity="center"
-                />
+                android:layout_weight="1"
+                android:onClick="clear"
+                android:text="Clear" />
+
             <TextView
                 android:id="@+id/player2"
-                android:textSize="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="xScore: 0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginLeft="50dp"
-                />
-
-
+                android:text="xScore: 0"
+                android:textSize="20sp" />
         </LinearLayout>
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
